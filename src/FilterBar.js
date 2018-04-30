@@ -4,36 +4,36 @@ import FilterItem from './FilterItem'
 class FilterBar extends Component {
   render () {
     return (
-      <aside class='menu'>
-        <p class='menu-label'>Gender</p>
-        <ul class='menu-list'>
-          <FilterItem filter='Male' />
-          <FilterItem filter='Female'>Female</FilterItem>
+      <aside className='menu'>
+        <p className='menu-label'>Gender</p>
+        <ul className='menu-list'>
+          <FilterItem filter='Male' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Female' filterClicked={this.props.filterClicked} >Female</FilterItem>
         </ul>
-        <p class='menu-label'>Professions</p>
-        <ul class='menu-list'>
-          <FilterItem filter='Educator' />
-          <FilterItem filter='Veteran' />
-          <FilterItem filter='Law' />
-          <FilterItem filter='Public Servant' />
-          <FilterItem filter='Business' />
-          <FilterItem filter='Politician' />
-          <FilterItem filter='Academic' />
-          <FilterItem filter='STEM' />
+        <p className='menu-label'>Professions</p>
+        <ul className='menu-list'>
+          <FilterItem filter='Educator' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Veteran' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Law' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Public Servant' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Business' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Politician' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Academic' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='STEM' filterClicked={this.props.filterClicked} />
         </ul>
-        <p class='menu-label'>Ethnicity</p>
-        <ul class='menu-list'>
-          <FilterItem filter='Hispanic' />
-          <FilterItem filter='East Asian' />
-          <FilterItem filter='South Asian' />
-          <FilterItem filter='African American' />
-          <FilterItem filter='Mixed' />
-          <FilterItem filter='White' />
+        <p className='menu-label'>Ethnicity</p>
+        <ul className='menu-list'>
+          <FilterItem filter='Hispanic' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='East Asian' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='South Asian' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='African American' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Mixed' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='White' filterClicked={this.props.filterClicked} />
         </ul>
-        <p class='menu-label'>Sexuality</p>
-        <ul class='menu-list'>
-          <FilterItem filter='LGBT' />
-          <FilterItem filter='Straight' />
+        <p className='menu-label'>Sexuality</p>
+        <ul className='menu-list'>
+          <FilterItem filter='LGBT' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='Straight' filterClicked={this.props.filterClicked} />
         </ul>
       </aside>
     )

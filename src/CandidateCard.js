@@ -2,30 +2,30 @@ import React, {Component} from 'react'
 
 class CandidateCard extends Component {
   render () {
+    let candidate = this.props.candidate
     return (
-      <div class='card'>
-        <div class='card-image'>
-          <figure class='image is-200by300 image-resize'>
-            <img src='candidate.candidate.image' alt='candidate.candidate.name' />
+      <div className='card'>
+        <div className='card-image'>
+          <figure className='image is-200by300 image-resize'>
+            <img src={candidate.image} alt={candidate.name} />
           </figure>
         </div>
-        <div class='card-content'>
-          <div class='media'>
-            <div class='media-content'>
-              <p class='title is-4'>Name (State-District)</p>
+        <div className='card-content'>
+          <div className='media'>
+            <div className='media-content'>
+              <p className='title is-4'>{candidate.name} ({candidate.state}-{candidate.district})</p>
             </div>
           </div>
-          <div class='content'>
-            <p><span>Gender:</span> Gender</p>
+          <div className='content'>
+            <p><span>Gender:</span> {candidate.gender}</p>
             <p><span>Ethnicity:</span> Ethnicity</p>
             <p><span>Professions:</span> Professions</p>
-            <a href='candidate.candidate.website'>Website</a>
+            <a href={candidate.website}>{candidate.website}</a>
           </div>
-          <button class='button is-primary' onClick='showMore'>Show More</button>
-          <button class='button is-warning' onClick='editCard'>Edit</button>
+          <button className='button is-primary' click='showMore'>Show More</button>
+          <button className='button is-warning' click='editCard'>Edit</button>
         </div>
       </div>
-
     )
   }
 }
