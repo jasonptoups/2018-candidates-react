@@ -14,11 +14,13 @@ class FilterContainer extends Component {
       gender: [],
       profession: [],
       ethnicity: [],
-      sexuality: []
+      sexuality: [],
+      filteredCandidates: []
     }
     this.filterClicked = this.filterClicked.bind(this)
     this.search = this.search.bind(this)
     this.addFilter = this.addFilter.bind(this)
+    this.filterCandidates = this.filterCandidates.bind(this)
   }
 
   filterClicked (event) {
@@ -34,10 +36,44 @@ class FilterContainer extends Component {
     this.search(text, filterArray) ? _.pull(filterArray, text) : filterArray.push(text)
     this.setState({[filter]: filterArray})
     console.log('addFilter', this.state)
+    this.filterCandidates()
   }
 
   search (text, array) {
     return array.indexOf(text) > -1
+  }
+
+  filterCandidates () {
+    let firstFilter
+    let secondFilter
+    let thirdFilter
+    let fourthFilter
+    this.state.gender.length === 0 ? firstFilter = this.state.candidates : firstFilter = []
+    for (let i = 0; i < this.state.gender.length; i++) {
+      let target = this.state.gender[i]
+      let add = this.state.candidates.filter(candidate => candidate.gender === target)
+      firstFilter.push(...add)
+    }
+    this.state.profession.length === 0 ? secondFilter = firstFilter : secondFilter = []
+    for (let i = 0; i < this.state.profession.length; i++) {
+      let target = this.state.profession[i]
+      let add = firstFilter.filter(candidate => candidate.professions[target] === true)
+      secondFilter.push(...add)
+    }
+    this.state.ethnicity.length === 0 ? thirdFilter = secondFilter : thirdFilter = []
+    for (let i = 0; i < this.state.ethnicity.length; i++) {
+      let target = this.state.ethnicity[i]
+      let add = secondFilter.filter(candidate => candidate.ethnicities[target] === true)
+      thirdFilter.push(...add)
+    }
+    this.state.sexuality.length === 0 ? fourthFilter = thirdFilter : fourthFilter = []
+    for (let i = 0; i < this.state.sexuality.length; i++) {
+      let target = this.state.sexuality[i]
+      let add = thirdFilter.filter(candidate => candidate.sexuality === target)
+      fourthFilter.push(...add)
+    }
+    fourthFilter = _.uniqWith(fourthFilter, _.isEqual)
+    this.setState({filteredCandidates: fourthFilter})
   }
 
   componentDidMount () {
@@ -48,7 +84,11 @@ class FilterContainer extends Component {
   }
 
   render () {
+    console.log('render', this.state)
     let candidates = this.state.candidates
+    let filteredCandidates = this.state.filteredCandidates
+    let showAll
+    filteredCandidates.length === 0 ? showAll = true : showAll = false
     return (
       <div>
         <NavBar />
@@ -57,7 +97,8 @@ class FilterContainer extends Component {
             <FilterBar className='padding-left' filterClicked={this.filterClicked} />
           </div>
           <div className='flex-wrap'>
-            {candidates && candidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
+            {filteredCandidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
+            {candidates && showAll && candidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
           </div>
         </div>
       </div>
