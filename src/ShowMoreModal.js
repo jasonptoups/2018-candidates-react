@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 class ShowMoreModal extends Component {
   render () {
     let candidate = this.props.candidate
-    console.log(candidate.professions.Business)
     if (!this.props.show) return null
     return (
       <div className='modal is-active'>

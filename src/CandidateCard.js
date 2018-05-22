@@ -1,13 +1,16 @@
 import React, {Component} from 'react'
 import _ from 'lodash'
 import ShowMoreModal from './ShowMoreModal'
+import EditModal from './EditModal'
 
 class CandidateCard extends Component {
   constructor (props) {
     super(props)
-    this.toggleModal = this.toggleModal.bind(this)
+    this.toggleMoreModal = this.toggleMoreModal.bind(this)
+    this.toggleEditModal = this.toggleEditModal.bind(this)
     this.state = {
-      isOpen: false
+      moreIsOpen: false,
+      editIsOpen: false
     }
   }
   showProfessions () {
@@ -16,9 +19,14 @@ class CandidateCard extends Component {
   showEthnicities () {
     return _.keys(_.pickBy(this.props.candidate.ethnicities)).join(', ')
   }
-  toggleModal () {
+  toggleMoreModal () {
     this.setState({
-      isOpen: !this.state.isOpen
+      moreIsOpen: !this.state.moreIsOpen
+    })
+  }
+  toggleEditModal () {
+    this.setState({
+      editIsOpen: !this.state.editIsOpen
     })
   }
   render () {
@@ -42,10 +50,11 @@ class CandidateCard extends Component {
             <p><span>Professions:</span> {this.showProfessions()}</p>
             <a href={candidate.website}>{candidate.website}</a>
           </div>
-          <button className='button is-primary' onClick={this.toggleModal}>Show More</button>
-          <button className='button is-warning' click='editCard'>Edit</button>
+          <button className='button is-primary' onClick={this.toggleMoreModal}>Show More</button>
+          <button className='button is-warning' onClick={this.toggleEditModal}>Edit</button>
         </div>
-        <ShowMoreModal toggleModal={this.toggleModal} show={this.state.isOpen} candidate={candidate} />
+        <ShowMoreModal toggleModal={this.toggleMoreModal} show={this.state.moreIsOpen} candidate={candidate} />
+        <EditModal toggleModal={this.toggleEditModal} show={this.state.editIsOpen} candidate={candidate} />
       </div>
     )
   }

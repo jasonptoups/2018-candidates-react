@@ -1,25 +1,30 @@
 import React, {Component} from 'react'
 import FilterItem from './FilterItem'
 
+const genderFilters = ['Male', 'Female']
+const professionFilters = ['Educator', 'Veteran', 'Law', 'Public Servant', 'Business', 'Politician', 'Academic', 'STEM']
+const ethnicityFilters = ['Hispanic', 'East Asian', 'South Asian', 'African American', 'Mixed', 'White']
+const sexualityFilters = ['LGBT', 'Straight']
+
 class FilterBar extends Component {
   render () {
     return (
       <aside className='menu'>
         <p className='menu-label'>Gender</p>
         <ul className='menu-list'>
-          <FilterItem filter='Male' filterClicked={this.props.filterClicked} />
-          <FilterItem filter='Female' filterClicked={this.props.filterClicked} >Female</FilterItem>
+          {genderFilters.map(filter => <FilterItem filter={filter} filterClicked={this.props.filterClicked} />)}
         </ul>
         <p className='menu-label'>Professions</p>
         <ul className='menu-list'>
-          <FilterItem filter='Educator' filterClicked={this.props.filterClicked} />
+          {professionFilters.map(filter => <FilterItem filter={filter} filterClicked={this.props.filterClicked} />)}
+          {/* <FilterItem filter='Educator' filterClicked={this.props.filterClicked} />
           <FilterItem filter='Veteran' filterClicked={this.props.filterClicked} />
           <FilterItem filter='Law' filterClicked={this.props.filterClicked} />
           <FilterItem filter='Public Servant' filterClicked={this.props.filterClicked} />
           <FilterItem filter='Business' filterClicked={this.props.filterClicked} />
           <FilterItem filter='Politician' filterClicked={this.props.filterClicked} />
           <FilterItem filter='Academic' filterClicked={this.props.filterClicked} />
-          <FilterItem filter='STEM' filterClicked={this.props.filterClicked} />
+          <FilterItem filter='STEM' filterClicked={this.props.filterClicked} /> */}
         </ul>
         <p className='menu-label'>Ethnicity</p>
         <ul className='menu-list'>

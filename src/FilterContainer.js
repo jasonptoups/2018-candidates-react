@@ -12,7 +12,7 @@ class FilterContainer extends Component {
     this.state = {
       candidates: [],
       gender: [],
-      profession: [],
+      professions: [],
       ethnicity: [],
       sexuality: [],
       filteredCandidates: []
@@ -25,17 +25,25 @@ class FilterContainer extends Component {
 
   filterClicked (event) {
     let text = event.target.innerText
-    if (text === 'Male' || text === 'Female') this.addFilter(text, 'gender')
-    if (text === 'Educator' || text === 'Veteran' || text === 'Law' || text === 'Public Servant' || text === 'Business' || text === 'Politician' || text === 'Academic' || text === 'STEM') this.addFilter(text, 'profession')
-    if (text === 'White' || text === 'Hispanic' || text === 'East Asian' || text === 'South Asian' || text === 'African American' || text === 'Mixed') this.addFilter(text, 'ethnicity')
-    if (text === 'LGBT' || text === 'Straight') this.addFilter(text, 'sexuality')
+    const genders = ['Male', 'Female']
+    const professions = ['Educator', 'Veteran', 'Law', 'Public Servant', 'Business', 'Politician', 'Academic', 'STEM']
+    const ethnicities = ['Hispanic', 'East Asian', 'South Asian', 'African American', 'Mixed', 'White']
+    const sexualities = ['LGBT', 'Straight']
+
+    if (genders.includes(text)) this.addFilter(text, 'gender')
+    if (professions.includes(text)) this.addFilter(text, 'professions')
+    if (ethnicities.includes(text)) this.addFilter(text, 'ethnicity')
+    if (sexualities.includes(text)) this.addFilter(text, 'sexuality')
+    // if (text === 'Male' || text === 'Female') this.addFilter(text, 'gender')
+    // if (text === 'Educator' || text === 'Veteran' || text === 'Law' || text === 'Public Servant' || text === 'Business' || text === 'Politician' || text === 'Academic' || text === 'STEM') this.addFilter(text, 'profession')
+    // if (text === 'White' || text === 'Hispanic' || text === 'East Asian' || text === 'South Asian' || text === 'African American' || text === 'Mixed') this.addFilter(text, 'ethnicity')
+    // if (text === 'LGBT' || text === 'Straight') this.addFilter(text, 'sexuality')
   }
 
   addFilter (text, filter) {
     let filterArray = this.state[filter]
     this.search(text, filterArray) ? _.pull(filterArray, text) : filterArray.push(text)
     this.setState({[filter]: filterArray})
-    console.log('addFilter', this.state)
     this.filterCandidates()
   }
 
@@ -43,6 +51,9 @@ class FilterContainer extends Component {
     return array.indexOf(text) > -1
   }
 
+  // This filterCandidates method is very messy because of how I structured the data on the backend
+  // The backend has some data stored as booleans and other data stored as strings,
+  // so the filtering on each is different. I should refactor to make the backend more consistent
   filterCandidates () {
     let firstFilter
     let secondFilter
@@ -54,9 +65,9 @@ class FilterContainer extends Component {
       let add = this.state.candidates.filter(candidate => candidate.gender === target)
       firstFilter.push(...add)
     }
-    this.state.profession.length === 0 ? secondFilter = firstFilter : secondFilter = []
-    for (let i = 0; i < this.state.profession.length; i++) {
-      let target = this.state.profession[i]
+    this.state.professions.length === 0 ? secondFilter = firstFilter : secondFilter = []
+    for (let i = 0; i < this.state.professions.length; i++) {
+      let target = this.state.professions[i]
       let add = firstFilter.filter(candidate => candidate.professions[target] === true)
       secondFilter.push(...add)
     }
@@ -84,11 +95,11 @@ class FilterContainer extends Component {
   }
 
   render () {
-    console.log('render', this.state)
     let candidates = this.state.candidates
     let filteredCandidates = this.state.filteredCandidates
     let showAll
-    filteredCandidates.length === 0 ? showAll = true : showAll = false
+    let filtersApplied = this.state.gender.length !== 0 || this.state.professions.length !== 0 || this.state.ethnicity.length !== 0 || this.state.sexuality.length !== 0
+    filtersApplied ? showAll = false : showAll = true
     return (
       <div>
         <NavBar />
@@ -98,6 +109,7 @@ class FilterContainer extends Component {
           </div>
           <div className='flex-wrap'>
             {filteredCandidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
+            {!candidates && <p>Loading candidates please wait</p>}
             {candidates && showAll && candidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
           </div>
         </div>
