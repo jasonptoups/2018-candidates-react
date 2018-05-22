@@ -4,7 +4,7 @@ import FilterBar from './FilterBar'
 import CandidateCard from './CandidateCard'
 import axios from 'axios'
 import _ from 'lodash'
-// import clientUrl from './constants'
+import {clientUrl} from './constants'
 
 class FilterContainer extends Component {
   constructor (props) {
@@ -21,6 +21,7 @@ class FilterContainer extends Component {
     this.search = this.search.bind(this)
     this.addFilter = this.addFilter.bind(this)
     this.filterCandidates = this.filterCandidates.bind(this)
+    this.refreshPage = this.refreshPage.bind(this)
   }
 
   filterClicked (event) {
@@ -34,10 +35,6 @@ class FilterContainer extends Component {
     if (professions.includes(text)) this.addFilter(text, 'professions')
     if (ethnicities.includes(text)) this.addFilter(text, 'ethnicity')
     if (sexualities.includes(text)) this.addFilter(text, 'sexuality')
-    // if (text === 'Male' || text === 'Female') this.addFilter(text, 'gender')
-    // if (text === 'Educator' || text === 'Veteran' || text === 'Law' || text === 'Public Servant' || text === 'Business' || text === 'Politician' || text === 'Academic' || text === 'STEM') this.addFilter(text, 'profession')
-    // if (text === 'White' || text === 'Hispanic' || text === 'East Asian' || text === 'South Asian' || text === 'African American' || text === 'Mixed') this.addFilter(text, 'ethnicity')
-    // if (text === 'LGBT' || text === 'Straight') this.addFilter(text, 'sexuality')
   }
 
   addFilter (text, filter) {
@@ -87,8 +84,13 @@ class FilterContainer extends Component {
     this.setState({filteredCandidates: fourthFilter})
   }
 
+  refreshPage () {
+    axios.get(clientUrl).then(res => {
+      this.setState({candidates: res.data})
+    })
+  }
+
   componentDidMount () {
-    let clientUrl = 'https://candidates-2018.herokuapp.com/api/candidates/'
     axios.get(clientUrl).then(res => {
       this.setState({candidates: res.data})
     })
@@ -102,15 +104,15 @@ class FilterContainer extends Component {
     filtersApplied ? showAll = false : showAll = true
     return (
       <div>
-        <NavBar />
+        <NavBar refreshPage={this.refreshPage} />
         <div className='columns'>
           <div className='column is-one-fifth'>
             <FilterBar className='padding-left' filterClicked={this.filterClicked} />
           </div>
           <div className='flex-wrap'>
-            {filteredCandidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
+            {filteredCandidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} refreshPage={this.refreshPage} />)}
             {!candidates && <p>Loading candidates please wait</p>}
-            {candidates && showAll && candidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} />)}
+            {candidates && showAll && candidates.map((candidate, index) => <CandidateCard key={index} candidate={candidate} refreshPage={this.refreshPage} />)}
           </div>
         </div>
       </div>

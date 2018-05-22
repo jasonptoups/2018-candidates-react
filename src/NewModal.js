@@ -4,45 +4,43 @@ import TextAreaInput from './TextAreaInput'
 import {clientUrl} from './constants'
 import axios from 'axios'
 
-class EditModal extends Component {
+class NewModal extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: this.props.candidate.name,
-      image: this.props.candidate.image,
-      state: this.props.candidate.state,
-      district: this.props.candidate.district,
-      age: this.props.candidate.age,
-      gender: this.props.candidate.gender,
-      sexuality: this.props.candidate.sexuality,
-      website: this.props.candidate.website,
-      bio: this.props.candidate.bio,
+      name: '',
+      image: '',
+      state: '',
+      district: null,
+      age: null,
+      gender: '',
+      sexuality: '',
+      website: '',
+      bio: '',
       professions: {
-        Educator: this.props.candidate.professions.Educator,
-        Veteran: this.props.candidate.professions.Veteran,
-        Law: this.props.candidate.professions.Law,
-        'Public Servant': this.props.candidate.professions['Public Servant'],
-        Politician: this.props.candidate.professions.Politician,
-        Business: this.props.candidate.professions.Business,
-        Academic: this.props.candidate.professions.Academic,
-        STEM: this.props.candidate.professions.STEM
+        Educator: false,
+        Veteran: false,
+        Law: false,
+        'Public Servant': false,
+        Politician: false,
+        Business: false,
+        Academic: false,
+        STEM: false
       },
       ethnicities: {
-        White: this.props.candidate.ethnicities.White,
-        Hispanic: this.props.candidate.ethnicities.Hispanic,
-        'East Asian': this.props.candidate.ethnicities['East Asian'],
-        'South Asian': this.props.candidate.ethnicities['South Asian'],
-        'African American': this.props.candidate.ethnicities['African American'],
-        Mixed: this.props.candidate.ethnicities.Mixed
+        White: false,
+        Hispanic: false,
+        'East Asian': false,
+        'South Asian': false,
+        'African American': false,
+        Mixed: false
       }
     }
     this.handleChange = this.handleChange.bind(this)
     this.updateProfessions = this.updateProfessions.bind(this)
     this.updateEthnicities = this.updateEthnicities.bind(this)
     this.submitChanges = this.submitChanges.bind(this)
-    this.deleteCandidate = this.deleteCandidate.bind(this)
   }
-
   handleChange (event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -66,46 +64,33 @@ class EditModal extends Component {
   }
 
   submitChanges () {
-    axios.put(`${clientUrl}/${this.props.candidate._id}`, this.state).then(res => {
-      this.props.toggleModal()
-      this.props.refreshPage()
-    })
-  }
-
-  deleteCandidate () {
-    axios.delete(`${clientUrl}/${this.props.candidate._id}`).then(res => {
+    axios.post(clientUrl, this.state).then(res => {
       this.props.toggleModal()
       this.props.refreshPage()
     })
   }
 
   render () {
-    let candidate = this.props.candidate
     if (!this.props.show) return null
     return (
       <div className='modal is-active'>
         <div className='modal-background' />
         <div className='modal-card'>
           <header className='modal-card-head'>
-            <p className='modal-card-title'>Edit {this.state.name}</p>
+            <p className='modal-card-title'>New Candidate</p>
             <button className='delete' aria-label='close' onClick={this.props.toggleModal} />
           </header>
           <section className='modal-card-body'>
-            <div className='card-image'>
-              <figure className='image is-2by3'>
-                <img src={this.state.image} alt={candidate.name} />
-              </figure>
-            </div>
             <div className='content'>
-              <p>Name: <TextInput name='name' value={this.state.name} handleChange={this.handleChange} /> </p>
+              <label>Name:</label> <TextInput name='name' value={this.state.name} handleChange={this.handleChange} />
               <p>Bio: <TextAreaInput name='bio' value={this.state.bio} handleChange={this.handleChange} /> </p>
               <h1>More Information</h1>
-              <p>Image URL: <TextInput name='image' value={this.state.image} handleChange={this.handleChange} /> </p>
-              <p>Website:  <TextInput name='website' value={this.state.website} handleChange={this.handleChange} /> </p>
-              <p>State: <TextInput name='state' value={this.state.state} handleChange={this.handleChange} /> </p>
-              <p>District:  <TextInput name='district' value={this.state.district} handleChange={this.handleChange} /></p>
-              <p>Gender:  <TextInput name='gender' value={this.state.gender} handleChange={this.handleChange} /></p>
-              <p>Sexuality:  <TextInput name='sexuality' value={this.state.sexuality} handleChange={this.handleChange} /></p>
+              <label>Image URL:</label> <TextInput name='image' value={this.state.image} handleChange={this.handleChange} />
+              <label>Website:</label> <TextInput name='website' value={this.state.website} handleChange={this.handleChange} />
+              <label>State:</label> <TextInput name='state' value={this.state.state} handleChange={this.handleChange} />
+              <label>District:</label> <TextInput name='district' value={this.state.district} handleChange={this.handleChange} />
+              <label>Gender:</label> <TextInput name='gender' value={this.state.gender} handleChange={this.handleChange} />
+              <label>Sexuality:</label> <TextInput name='sexuality' value={this.state.sexuality} handleChange={this.handleChange} />
               <dt>Professions</dt>
               <dd>Academic: <input type='checkbox' checked={this.state.professions.Academic} name='Academic' onChange={this.updateProfessions} /></dd>
               <dd>STEM: <input type='checkbox' checked={this.state.professions.STEM} name='STEM' onChange={this.updateProfessions} /></dd>
@@ -126,9 +111,8 @@ class EditModal extends Component {
             </div>
           </section>
           <footer className='modal-card-foot'>
-            <button class='button is-success' type='submit' onClick={this.submitChanges} >Save changes</button>
-            <button class='button' onClick={this.props.toggleModal}>Cancel </button>
-            <button class='button is-danger' onClick={this.deleteCandidate}>Delete Candidate</button>
+            <button class='button is-success' type='submit' onClick={this.submitChanges} >Submit</button>
+            <button class='button' onClick={this.props.toggleModal}>Cancel</button>
           </footer>
         </div>
       </div>
@@ -137,4 +121,4 @@ class EditModal extends Component {
   }
 }
 
-export default EditModal
+export default NewModal

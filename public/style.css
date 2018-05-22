@@ -26,3 +26,26 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+label {
+  display: block;
+}
+
+.filter-bar {
+  margin-left: 10px;
+}
+
+.card-custom {
+  max-width: 25vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-custom {
+    max-width: 80vw;
+    margin: 5px auto;
+  }
+
+  .filter-bar {
+    text-align: center;
+  }
+}

@@ -32,7 +32,7 @@ class CandidateCard extends Component {
   render () {
     let candidate = this.props.candidate
     return (
-      <div className='card'>
+      <div className='card card-custom'>
         <div className='card-image'>
           <figure className='image is-200by300 image-resize'>
             <img src={candidate.image} alt={candidate.name} />
@@ -54,7 +54,7 @@ class CandidateCard extends Component {
           <button className='button is-warning' onClick={this.toggleEditModal}>Edit</button>
         </div>
         <ShowMoreModal toggleModal={this.toggleMoreModal} show={this.state.moreIsOpen} candidate={candidate} />
-        <EditModal toggleModal={this.toggleEditModal} show={this.state.editIsOpen} candidate={candidate} />
+        <EditModal toggleModal={this.toggleEditModal} show={this.state.editIsOpen} candidate={candidate} refreshPage={this.props.refreshPage} />
       </div>
     )
   }
