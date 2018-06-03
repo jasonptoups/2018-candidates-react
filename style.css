@@ -1,0 +1,51 @@
+.flex-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 350px;
+  margin: 10px 10px;
+  height: 625px;
+}
+
+.image-resize {
+  height: 300px;
+  width: 200px;
+  margin: 0 auto;
+  padding-top: 1px;
+}
+
+.padding-left {
+  padding-left: 20px
+}
+
+.flag {
+  background-image: linear-gradient(to bottom, rgba(20,20,20,.4) 90%, rgba(255,255,255,1)), url("https://modernandhistoricalflags.files.wordpress.com/2012/09/cropped-us_flag_header.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+label {
+  display: block;
+}
+
+.filter-bar {
+  margin-left: 10px;
+}
+
+.card-custom {
+  max-width: 25vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-custom {
+    max-width: 80vw;
+    margin: 5px auto;
+  }
+
+  .filter-bar {
+    text-align: center;
+  }
+}
